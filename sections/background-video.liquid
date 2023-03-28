@@ -37,17 +37,41 @@
 </div>
 {% if section.settings.has_product_buttons %}
 <div class="product-buttons-wrapper">
-    <div class="product-buttons">
-        <a href="/collections/all" class="product-button">
-            shop all products 
-            {% render 'icon-motocult-arrow' %}
-        </a>
-        <button class="product-button">
+    <ul class="product-buttons">
+        <li>
+            <button class="product-button">
+                shop all products 
+                {% render 'icon-motocult-arrow' %}
+        
+            </button>
+        </li>
+        <li>
+            <button class="product-button">
             shop by bike
             
             {% render 'icon-motocult-arrow' %}
-        </button>
-    </div>
+            </button>
+
+            <ul class="bike-detail-menu">
+                <li><button class="bike-detail-button">
+                    janus 250    
+                    {% render 'icon-motocult-arrow' %}
+                </button></li>
+                <li><button class="bike-detail-button">
+                    hawk 250    
+                    {% render 'icon-motocult-arrow' %}
+                </button></li>
+                <li><button class="bike-detail-button">
+                    hawk 250 dlx  
+                    {% render 'icon-motocult-arrow' %}
+                </button></li>
+                <li><button class="bike-detail-button">
+                    tao tao tbr7 
+                    {% render 'icon-motocult-arrow' %}
+                </button></li>
+            </ul>
+        </li>
+    </ul>
 </div>
 {% endif %}
 
@@ -59,6 +83,8 @@
         height: calc(100vh - {{ site.top_bar_height | default: '0' }}px);
         z-index: -1;
         top: 0;
+
+        filter: blur(2px);
     }
 
     .bg-video video {
@@ -97,7 +123,7 @@
     .product-button {
         all: unset;
         cursor: pointer;
-        width: 50%;
+        width: 100%;
         background-color: #fff;
         color: #000;
         text-align: left;
@@ -106,52 +132,118 @@
         font-weight: 700;
         height: 100%;
         line-height: {{ section.settings.product_button_height }}px;
-
         border: 1px solid #000;
         overflow: hidden;
     }
 
-    .bike-detail-buttons {
-        {% comment %} display: none; {% endcomment %}
-        
-        position: absolute;
-        top: -200px;
+
+    .bike-detail-menu {
+        width: 50%;
     }
 
-    .bike-detail-buttons .product-button {
-        width: 75%;
+    .bike-detail-menu li {
         height: 50px;
+        margin-bottom: 10px;
     }
 
-    {% comment %} @keyframes focus-stripe {
-        0% {
-            transform: translateX(20%);
-        }
-        100% {
-            transform: translateX(0%);
-        }
+    {% comment %} .bike-detail-menu li {
+        position: relative;
     } {% endcomment %}
 
-    .product-button:focus, .product-button:hover {
-        {% comment %} background-color: #000; {% endcomment %}
-        {% comment %} color: #fff; {% endcomment %}
+    .product-buttons li, .bike-detail-menu li {
+        position: relative;
+        width: 100%;
     }
 
+    {% comment %} .bike-detail-menu ul { {% endcomment %}
+    .product-buttons ul {
+        display: none;
+
+        position: absolute;
+        left: 0;
+        top: -240px;
+    }
+
+    {% comment %} .bike-detail-menu li:hover ul {
+        display: block;
+    } {% endcomment %}
+
+    .product-buttons li:hover ul {
+        display: block;
+    }
+
+    .bike-detail-button {
+        all: unset;
+        cursor: pointer;
+
+        background-color: #fff;
+
+        height: 50px;
+        line-height: 50px;
+
+        font-size: 1.15rem;
+
+        overflow: hidden;
+        
+        width: 100%;
+        text-align: left;
+        padding: 0 0 0 20px;
+
+        font-weight: 600;
+
+        {% comment %} border: 1px solid #000; {% endcomment %}
+        border-radius: 2px;
+
+        {% comment %} transition: box-shadow 0.1s ease; {% endcomment %}
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+
+    .bike-detail-button::after {
+        box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        opacity: 0;
+        content: "";
+        transition: opacity 0.15s ease;
+    }
+
+    .bike-detail-button:hover::after {
+        opacity: 1;
+    }
+
+    {% comment %} .bike-detail-button:focus, .bike-detail-button:hover {
+        box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 15px;
+    } {% endcomment %}
+
+
     .product-button:focus .focus-stripe, .product-button:hover .focus-stripe {
-        {% comment %} animation: focus-stripe 0.25s ease-in 1; {% endcomment %}
         transform: translateX(0%);
     }
 
-    .product-button svg {
-        height: 100%;
+    .bike-detail-button:focus .focus-stripe, .bike-detail-button:hover .focus-stripe {
+        transform: translateX(0%);
+    }
+
+    .bike-detail-button svg {
+        height: 50px;
         width: auto;
         float: right;
-        transform: translateX(40px);
+        transform: translateX(30px);
+        transition: transform 0.2s ease;
+    }
+
+    .bike-detail-button:focus svg, .bike-detail-button:hover svg {
+        transform: translateX(0px);
+    }
+
+    .product-button svg {
+        height: {{ section.settings.product_button_height }}px;
+        width: auto;
+        float: right;
+        transform: translateX(60px);
         transition: transform 0.2s ease;
     }
 
     .product-button:focus svg, .product-button:hover svg {
-        transform: translateX(0px);
+        transform: translateX(-20px);
     }
 
     .focus-stripe {
